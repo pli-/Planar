@@ -72,7 +72,10 @@ int main(){
 	//var for # of edges and vertices
 	int vnumber = 0;
 	int enumber = 0;
+    
 	edge* someEdge;
+	bool planar = true;
+	bool testing = true;
 	
 	vector<int> vertices;//all these v words confusing me
 	vector <edge *> edges;
@@ -84,6 +87,25 @@ int main(){
 	
 	vertexInput(vertices, vnumber);
 	edgeInput(edges, enumber);
+	
+	//function to find if it has 3cycles
+	
+	//function to check k3 3 
+	
+	//function to check k5
+	
+	//How to know if a graph is planar?
+	//Euler's formula must be satisfied
+	while(planar && testing){
+		if(vnumber >= 3){
+			if(enumber > 2*vnumber - 4){
+				planar = false;
+				break;
+			}
+		}	
+		
+		testing = false;
+	}
 	
 	
 }
