@@ -53,11 +53,14 @@ void edgeInput (vector <edge *> edges, int &number){
 	cout << "Enter the start and end points of the edges: " << endl;
 	for(int i = 0; i < number; i++){
 		int start, end;
+		string line;
+		stringstream ss;
+		cout << "Enter the start and end point: ";
+		getline(cin, line);
+		ss << line;
+		ss >> start;
+		ss >> end;
 		
-		cout << "Start point of edge "<< i+1 << ": ";
-		cin >> start;
-		cout << endl << "End point of edge "<< i+1 << ": ";
-		cin >> end;
 		cout << endl;
 		
 		edge* e = new edge(start,end);
@@ -66,6 +69,41 @@ void edgeInput (vector <edge *> edges, int &number){
 		cerr << "Adding edge with start " << e->vert1 << " and end " << e->vert2 << endl;
 	}
 }
+
+//threeCycles will check the edges of the graph to see if there are any cycles of length 3 and return a bool
+bool threeCycles (vector <edge *> edges, int number){
+	//need to go through each edge, take the start point and its end point, 
+	//search list for all occurrences of the end point in the start point position
+	//look at that edge and see if its end point is equal to the original start point
+	bool found = false;
+	int counter = 0;
+	
+	while (!found && counter < number){
+		int start, end;
+		
+		start = edges[counter]->vert1;
+		end = edges[counter]->vert2;
+		
+		for(int i = 0; i < number; i++){
+			if(end == edges[i]->vert1){
+				if(edges[i]->vert2 == start){
+					found = true;
+					break;
+				}
+			}
+		}
+		
+		counter ++;
+	}
+	
+	return found;
+}
+
+bool k33 (){
+	
+}
+
+
 
 //Main will take in input of edges and vertices and see if the graph is planar
 int main(){
@@ -76,6 +114,7 @@ int main(){
 	edge* someEdge;
 	bool planar = true;
 	bool testing = true;
+	bool found3cycle = false;
 	
 	vector<int> vertices;//all these v words confusing me
 	vector <edge *> edges;
@@ -88,24 +127,41 @@ int main(){
 	vertexInput(vertices, vnumber);
 	edgeInput(edges, enumber);
 	
-	//function to find if it has 3cycles
+	found3cycle = threeCycles(edges, enumber);
 	
-	//function to check k3 3 
 	
-	//function to check k5
+	
 	
 	//How to know if a graph is planar?
 	//Euler's formula must be satisfied
-	while(planar && testing){
-		if(vnumber >= 3){
-			if(enumber > 2*vnumber - 4){
-				planar = false;
-				break;
+	if(vnumber < 3){
+		cout << "The Graph is Planar as it has fewer than 3 vertices" << endl;
+	}else {
+		while(planar && testing){
+			if(found3cycle){
+				if(enumber > 2*vnumber - 4){
+					planar = false;
+					break;
+				}else{
+					//function to check k3 3 
+	
+					//function to check k5
+				}
+			}else if(!found3cycle){
+				if(enumber > 3*vnumber - 6){
+					planar = false;
+					break;
+				}else{
+					//function to check k3 3 
+	
+					//function to check k5
+				}
 			}
-		}	
 		
-		testing = false;
+			testing = false;
+		}
 	}
+	
 	
 	
 }
