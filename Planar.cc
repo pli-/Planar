@@ -99,8 +99,45 @@ bool threeCycles (vector <edge *> edges, int number){
 	return found;
 }
 
-bool k33 (){
+bool k33 (vector <edge *> edges,vector <int> vertices, int vnumber, int enumber){
+	//k33 cycles require at least 6 vertices with at least 3 edges
+	//create a vector
+	bool valid = true;
+	int vertMoreThan3 = 0;
+	for(int i = 0; i < vnumber; i++){
+		if(vertices[i] >= 3){
+			vertMoreThan3++;
+		}
+	}
 	
+	if(vertMoreThan3 >= 6){
+		//still maybe planar, will have to find a 6cycle, and 3 cuts straight across 
+		// aka 1 to 4, 2 to 5, and 3 to 6
+		
+		return false; // assume it for now
+	}else{
+		return true; // definitely not k33
+	}
+}
+
+bool k5 (vector <edge *> edges,vector <int> vertices, int vnumber, int enumber){
+	//k33 cycles require at least 5 vertices with at least 4 edges
+	//create a vector
+	bool valid = true;
+	int vertMoreThan4 = 0;
+	for(int i = 0; i < vnumber; i++){
+		if(vertices[i] >= 4){
+			vertMoreThan4++;
+		}
+	}
+	
+	if(vertMoreThan4 >= 5){
+		//still maybe planar, will have to find a the k5 pentagon where all vertices are connected
+		
+		return false; // assuming its not planar for now
+	}else{
+		return true; // definitely not k33
+	}
 }
 
 
@@ -126,6 +163,19 @@ int main(){
 	
 	vertexInput(vertices, vnumber);
 	edgeInput(edges, enumber);
+	
+	//we will replace the vertices vertex with number of edges in said graph
+	// to do so we must go through every edge, every start point and end point and add one to the corresponding vertex
+	
+	for(int i = 0; i < vnumber; i ++){
+		vertices[i] = 0;
+	}
+	
+	for(int i = 0; i < enumber; i ++){
+		vertices[(edges[i]->vert1)]++;
+		vertices[(edges[i]->vert2)]++;
+	}
+	
 	
 	found3cycle = threeCycles(edges, enumber);
 	
